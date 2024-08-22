@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, status, Depends, Response, Request, HTTPException, Cookie
-from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+# from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from app.apis.auth.schemas import (
     Token
@@ -21,7 +21,7 @@ from ...exceptions.base_exception import CredentialsException
 
 auth_router = APIRouter(tags=["ACCOUNT AUTHENTICATION & AUTHORIZATION"])
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl=settings.TOKEN_URL)
+# oauth2_scheme = OAuth2PasswordBearer(tokenUrl=settings.TOKEN_URL)
 
 individual_auth_dependency = Annotated[UserLogin, Depends(get_current_active_individual_account)]
 corporate_auth_dependency = Annotated[UserLogin, Depends(get_current_active_corporate_account)]
