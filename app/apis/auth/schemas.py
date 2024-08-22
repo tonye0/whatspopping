@@ -25,6 +25,11 @@ class UserLogin(BaseModel):
     password: str
 
 
+class AccountLogin(BaseModel):
+    email_address: EmailStr
+    password: str
+
+
 class EmailSchema(BaseModel):
     email: List[EmailStr]
     # body: Dict[str, Any]

@@ -7,7 +7,7 @@ from app.apis.auth.schemas import (
     Token
 )
 from app.config import settings
-from app.apis.auth.schemas import UserLogin
+from app.apis.auth.schemas import UserLogin, AccountLogin
 from app.database.session import db_dependency
 from .services import (
     authenticate_individual_account,
@@ -30,21 +30,21 @@ corporate_auth_dependency = Annotated[UserLogin, Depends(get_current_active_corp
 @auth_router.post("/auth/login")
 async def login_for_access_token(
         response: Response,
-        form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
+        account_login: AccountLogin,
         db: db_dependency
 ):
     individual_account = authenticate_individual_account(
         db=db,
-        email=form_data.username,
-        password=form_data.password
+        email=account_login.email_address,
+        password=account_login.password
     )
     if individual_account:
         return await login_account(response, account=individual_account, role="individual")
 
     corporate_account = authenticate_corporate_account(
         db=db,
-        email=form_data.username,
-        password=form_data.password
+        email=account_login.email_address,
+        password=account_login.password
     )
     if corporate_account:
         return await login_account(response, account=corporate_account, role="corporate")
